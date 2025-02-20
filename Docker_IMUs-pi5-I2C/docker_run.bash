@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# make the file executable: chmod +x docker_run.bash
+
 # ===========================================
 # docker_run.bash
 # ===========================================
