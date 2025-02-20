@@ -25,18 +25,31 @@ CONTAINER_NAME="ros2_mipo_container"  # Name of the container
 echo "Running container: $CONTAINER_NAME"
 
 # Allow local docker containers to connect to X server (if not done previously)
-xhost +local:docker
+#xhost +local:docker
+#if [ -z "$DISPLAY" ]; then
+#  export DISPLAY=:0
+#fi
+
+# Debug: Print the docker command
+echo "docker run -it --rm \
+  --hostname $HOSTNAME \
+  --name $CONTAINER_NAME \
+  --privileged \
+  --net=host \
+  -w /home/$USERNAME/$WORKSPACE \
+  -v /dev:/dev \
+  $IMAGE:$TAG \
+  $CMD_INTERACTIVE"
 
 
 # Run docker    
 docker run -it --rm \
   --hostname $HOSTNAME \
   --name "${CONTAINER_NAME}" \
-  -v /tmp/.X11-unix:/tmp/.X11-unix \
   --privileged \
   --net=host \
   -w /home/$USERNAME/$WORKSPACE \
   -v /dev:/dev \
-  -e DISPLAY=$DISPLAY \
   "${IMAGE}:${TAG}" \
   "$CMD_INTERACTIVE" 
+
