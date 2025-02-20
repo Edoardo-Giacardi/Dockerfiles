@@ -97,16 +97,16 @@ ENV HOME=/home/$USERNAME
 # Debug: print
 RUN echo "USERNAME=$USERNAME" && echo "WORKSPACE=$WORKSPACE"
 
-# Add user to i2c group
-RUN groupadd -f -r -g 994 i2c && \
-    usermod -aG i2c $USERNAME
-    
 # Create the new user + give sudo
 RUN groupadd --gid $USER_GID $USERNAME && \
     useradd --uid $USER_UID --gid $USER_GID -m $USERNAME && \
     apt-get update && apt-get install -y sudo && \
     echo "$USERNAME ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME && \
     chmod 0440 /etc/sudoers.d/$USERNAME
+
+# Add user to i2c group
+RUN usermod -aG i2c $USERNAME
+    
 
 # Prepare Workspace
 RUN mkdir -p /home/$USERNAME/$WORKSPACE/src
