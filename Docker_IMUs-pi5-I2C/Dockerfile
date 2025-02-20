@@ -87,7 +87,8 @@ RUN pip3 install --upgrade \
     quadprog \
     adafruit-circuitpython-bno08x \
     adafruit-extended-bus \
-    scipy 
+    scipy \
+    RPi.GPIO 
 
 
 # Let the container know the home directory for the new user
@@ -95,6 +96,10 @@ ENV HOME=/home/$USERNAME
 
 # Debug: print
 RUN echo "USERNAME=$USERNAME" && echo "WORKSPACE=$WORKSPACE"
+
+# Add user to i2c group
+RUN groupadd -f -r -g 994 i2c && \
+    usermod -aG i2c $USERNAME
     
 # Create the new user + give sudo
 RUN groupadd --gid $USER_GID $USERNAME && \
