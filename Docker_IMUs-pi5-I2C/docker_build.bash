@@ -21,6 +21,5 @@ docker build \
     --build-arg WORKSPACE=$WORKSPACE \
     --build-arg IMAGE=$IMAGE \
     --build-arg TAG=$TAG \
-    --no-cache \
     -t $IMAGE:$TAG \
     .
