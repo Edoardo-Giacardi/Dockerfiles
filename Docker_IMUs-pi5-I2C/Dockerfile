@@ -70,8 +70,10 @@ RUN apt-get update \
     ros-humble-joint-state-publisher \
     ros-humble-velodyne-description \
     ros-humble-plotjuggler-ros \
-    tmux python3-pip \
-    python3-setuptools \
+    tmux \
+    python3-pip \
+    python3-dev \
+    build-essential \
     i2c-tools \
     xterm \
     libeigen3-dev \
@@ -79,6 +81,10 @@ RUN apt-get update \
     ros-humble-rviz2 \
     nautilus \
     && rm -rf /var/lib/apt/lists/*
+
+# Upgrade pip and setuptools to ensure compatibility with required packages
+RUN python3 -m pip install --no-cache-dir --upgrade --force-reinstall \
+    pip setuptools wheel setuptools-scm
 
 # Install the python packages
 RUN pip3 install --upgrade \
