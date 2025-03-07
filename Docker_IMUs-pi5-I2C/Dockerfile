@@ -70,10 +70,11 @@ RUN apt-get update \
     ros-humble-joint-state-publisher \
     ros-humble-velodyne-description \
     ros-humble-plotjuggler-ros \
-    tmux \
+    tmux
+
+RUN apt-get update \
+    && apt-get install -y \
     python3-pip \
-    python3-dev \
-    build-essential \
     i2c-tools \
     xterm \
     libeigen3-dev \
@@ -81,21 +82,6 @@ RUN apt-get update \
     ros-humble-rviz2 \
     nautilus \
     && rm -rf /var/lib/apt/lists/*
-
-# Upgrade pip and setuptools to ensure compatibility with required packages
-RUN python3 -m pip install --no-cache-dir --upgrade --force-reinstall \
-    pip setuptools wheel setuptools-scm
-
-# Install the python packages
-RUN pip3 install --upgrade \
-    numpy \
-    numpy-quaternion \
-    quadprog \
-    adafruit-circuitpython-bno08x \
-    adafruit-extended-bus \
-    scipy \
-    RPi.GPIO 
-
 
 # Let the container know the home directory for the new user
 ENV HOME=/home/$USERNAME
@@ -111,8 +97,20 @@ RUN groupadd --gid $USER_GID $USERNAME && \
     chmod 0440 /etc/sudoers.d/$USERNAME
 
 # Add user to i2c group
-RUN usermod -aG i2c $USERNAME
-    
+RUN groupadd -f -r -g 994 i2c && \
+    usermod -aG i2c $USERNAME
+ 
+# Upgrade pip, setuptools and wheel come root (installazione globale)
+RUN pip3 install --upgrade pip setuptools wheel packaging setuptools_scm
+
+# Install the python packages come root
+RUN pip3 install --upgrade \
+    numpy \
+    numpy-quaternion \
+    adafruit-circuitpython-bno08x \
+    adafruit-extended-bus \
+    scipy \
+    RPi.GPIO
 
 # Prepare Workspace
 RUN mkdir -p /home/$USERNAME/$WORKSPACE/src
