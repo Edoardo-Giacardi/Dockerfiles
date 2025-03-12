@@ -81,6 +81,7 @@ RUN apt-get update \
     nano \
     ros-humble-rviz2 \
     nautilus \
+    tree \
     && rm -rf /var/lib/apt/lists/*
 
 # Let the container know the home directory for the new user
