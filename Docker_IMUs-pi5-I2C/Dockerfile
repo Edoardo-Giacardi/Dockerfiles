@@ -45,13 +45,12 @@ RUN echo "deb [arch=arm64 signed-by=/etc/apt/trusted.gpg.d/ros-archive-keyring.g
 
 RUN apt-get update \
     && apt-get install -y \
-    ros-humble-desktop \
+    ros-humble-ros-base \
     ros-humble-hardware-interface \
     ros-humble-generate-parameter-library \
     ros-humble-xacro \
     ros-humble-controller-interface \
     ros-humble-realtime-tools \
-    ros-humble-ros2-control-test-assets \
     ros-humble-controller-manager \
     ros-humble-joint-state-publisher-gui \
     ros-humble-control-msgs \
@@ -60,17 +59,12 @@ RUN apt-get update \
     ros-humble-control-toolbox \
     ros-humble-ackermann-msgs \
     ros-humble-ament-cmake \
-    ros-humble-ament-cmake-clang-format \
     ros-humble-ros2-control \
     ros-humble-ros2-controllers \
     ros-humble-joint-state-broadcaster \
-    ros-humble-ament-cmake-clang-tidy \
-    ros-humble-rqt-reconfigure \
-    ros-humble-rviz-visual-tools \
     ros-humble-joint-state-publisher \
-    ros-humble-velodyne-description \
-    ros-humble-plotjuggler-ros \
-    tmux
+    tmux \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update \
     && apt-get install -y \
@@ -79,8 +73,6 @@ RUN apt-get update \
     xterm \
     libeigen3-dev \
     nano \
-    ros-humble-rviz2 \
-    nautilus \
     tree \
     && rm -rf /var/lib/apt/lists/*
 
