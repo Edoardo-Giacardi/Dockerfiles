@@ -73,6 +73,7 @@ RUN apt-get update \
     xterm \
     libeigen3-dev \
     nano \
+    gedit \
     tree \
     && rm -rf /var/lib/apt/lists/*
 
