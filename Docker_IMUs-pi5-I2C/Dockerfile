@@ -137,8 +137,16 @@ RUN echo 'parse_git_branch() {' >> ~/.bashrc && \
 
 RUN echo "PS1='<Docker: ${IMAGE}:${TAG}>\\[\\033[1;31m\\]\\u\\[\\033[1;37m\\]@\\[\\033[1;32m\]\\h\[\\033[1;37m\\]:\\[\\033[1;36m\\]\\w\\[\\033[01;33m\\]\$(parse_git_branch)\\[\\033[00m\\]\\$ \\[\\033[0m\\]'" >> ~/.bashrc
 
+# install cyclonedds
+RUN sudo apt-get update && sudo apt-get install -y \
+    ros-humble-rmw-cyclonedds-cpp
+
+# export cyclonedds
+RUN echo "export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp" >> ~/.bashrc
+
 # Source ROS & workspace in every new shell
 RUN echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc && \
     echo "if [ -f ~/${WORKSPACE}/install/setup.bash ]; then source ~/${WORKSPACE}/install/setup.bash; fi" >> ~/.bashrc
+   
 
 CMD ["/bin/bash"]
